@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Latest bookmarks
+{% endblock %}
+
+{% block heading %}
+	<h2>Latest bookmark</h2>
+{% endblock %}
+
+{% block container %}
+	<ul class="list-unstyled">
+		{% for bookmark in bookmarks %}
+			<!-- La plantilla para el marcador es incluída usando la etiqueta include -->
+			<li class="well">{% include "marcador/bookmark.html" %}</li>
+			{% empty %}
+				<li>No bookmarks...</li>
+		{% endfor %}
+	</ul>
+	{% if user.is_authenticated %}
+		<p><a class="btn btn-default" href="{% url "marcador_bookmark_create" %}">Create new bookmark</a></p>
+	{% endif %}
+{% endblock %}

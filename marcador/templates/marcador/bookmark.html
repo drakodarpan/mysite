@@ -1,0 +1,34 @@
+<!--
+En esta plantilla un objeto Bookmark está disponible que es asignado a la variable bookmark. En una plantilla es posible acceder a los atributos de un objeto, 
+por ejemplo el título usando bookmark.title. Los atributos pueden ser modificados por filtro, por ejemplo usando linebreaksbr que convierte todas la etiquetas 
+HTML <br /> en saltos de líneas reales.
+
+También es posible acceder a objetos relacionados, por ejemplo las etiquetas. Ya que bookmark.tags es una lista de objetos representados por objeto manager, 
+sólo puedes acceder a los objetos Tag con la ayuda de métodos definidos por el manager. bookmark.tags.count devuelve el número de etiquetas. bookmark.tags.all 
+crea un iterador que puede ser usado en un bucle. Para invocar a estos métodos en tu código Python tienes que poner un par de paréntesis al final del 
+método (bookmark.tag.count()). Si el método es invocado en una plantilla no se permiten paréntesis porque no se puede pasar argumentos a un método en una plantilla.
+
+Con la ayuda de la etiqueta url un enlace a los otros marcadores del dueño del marcador es creado al final de la plantilla. Ya que el URL marcador_bookmark_user 
+necesita un nombre de usuario, necesitamos pasarlo como argumento a la etiqueta de plantilla. Eso implica que argumentos se pueden pasar a etiquetas de plantillas. 
+-->
+
+<a class="lead" href="{{ bookmark.url }}">{{ bookmark.title }}</a>
+{% if bookmark.description %}
+	<br>{{ bookmark.description|linebreaksbr }}
+{% endif %}
+{% if not bookmark.is_public %}
+	<br><span class="badge badge-important">private</span>
+{% else %}
+	<br>
+{% endif %}
+{% if bookmark.owner == user %}
+	<br>
+	<a class="btn btn-default btn-xs" href="{% url "marcador_bookmark_edit" bookmark.pk %}">Edit bookmark</a>
+{% endif %}
+{% if bookmark.tags.count %}
+	{% for tag in bookmark.tag.all %}
+		<span class="badge">{{ tag|lower }}</span>&nbsp;
+	{% endfor %}
+{% endif %}
+<br>by<a href="{% url marcador_bookmark_user bookmark.owner.username %}">{{ bookmark.owner.username }}</a>
+{{ bookmark.date_created|timesince }} ago

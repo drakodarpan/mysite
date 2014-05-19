@@ -1,0 +1,43 @@
+<!--
+Primero creamos un formulario en el bloque content. La etiqueta <form> recibe atributos para hacer que envíe el pedido POST a la vista de inicio de sesión.
+
+La plantilla recibe una variable form de la vista de inicio de sesión que contiene el formulario de inicio de sesión. Con crispy Django 
+crea todos los campos de entrada necesarios. Por supuesto, también puedes hacer todos los campos por separado. Cómo está descrito en la documentación.
+
+La línea 14 contienen la etiqueta de plantilla csrf token. Es usada para activar la protección contra solicitudes de formularios manipuladas 
+(Cross Site Request Forgery).
+
+Después de eso viene un campo de entrada oculto que obtiene el valor de la variable next. next contiene la ruta a la que el usuario debería ser re 
+dirigido después de un inicio de sesión exitoso. Por lo general, este es el valor de la constante LOGIN_REDIRECT_URL que definiste en el archivo 
+settings.py. El valor por defecto es reemplazado si pides la página con un parámetro adicional. Por ejemplo, /login/?next=/user/bob/ re dirigirá al 
+usuario a la página con los marcadores de Bob después de iniciar la sesión.
+
+Finalmente creamos un botón para enviar el formulario en la línea 16.
+-->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	Login
+{% endblock %}
+
+
+{% block heading %}
+	<h2>Favor de identificarse...</h2>
+{% endblock %}
+
+<!-- 
+{% block toogle_login %} {% endblock %}
+
+{% block content %}
+	<form action="{% url "mysite_login" %}" method="post" accept-charset="utf-8">
+		{{ form.crispy }}
+		{% csrf_token %}
+		<input type="hidden" name="next" value="{{ next }}" />
+		<input class="btn btn-default" type="submit" value="Login" />
+	</form>
+{% endblock %}
+-->
+
+http://django-marcador.keimlink.de/es/forms.html
